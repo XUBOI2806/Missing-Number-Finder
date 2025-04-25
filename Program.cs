@@ -16,44 +16,17 @@ Input: [9, 6, 4, 2, 3, 5, 7, 0, 1]
 Output: 8
 */
 
-namespace MissingNumberFinderApp
+using Missing_Number_Finder.App;
+using Missing_Number_Finder.Interfaces;
+using Missing_Number_Finder.Services;
+
+class Program
 {
-    public class ConsoleActions
+    static void Main(string[] args)
     {
-        // Retrieves the input from the user
-        public int[] GetUserInput()
-        {
-            Console.WriteLine("Enter array: ");
-            string input = Console.ReadLine();
-            int[] numList = input.Trim('[', ']').Split(',').Select(int.Parse).ToArray();
-            return numList;
-        }
-    }
-
-    public class MissingNumberFinder
-    {
-        // Finds the missing number by finding the length of the list, then finding the added total and deducting that with given added total.
-        public int FindMissingNumber(int[] nums)
-        {
-            int n = nums.Length;
-            int totalSum = n * (n + 1) / 2;
-            int inputSum = 0;
-            foreach (int num in nums)
-            {
-                inputSum += num;
-            }
-            return totalSum - inputSum;
-        }
-    }
-
-    class Application
-    {
-        static void Main(string[] args)
-        {
-            var console = new ConsoleActions();
-            var finder = new MissingNumberFinder();
-            int missingNumber = finder.FindMissingNumber(console.GetUserInput());
-            Console.WriteLine($"Missing Number is: {missingNumber}");
-        }
+        IConsoleActions console = new ConsoleActions();
+        IMissingNumberFinder missingNumberFinder = new MissingNumberFinder();
+        var app = new MissingNumberFinderApp(console, missingNumberFinder);
+        app.Run();
     }
 }
